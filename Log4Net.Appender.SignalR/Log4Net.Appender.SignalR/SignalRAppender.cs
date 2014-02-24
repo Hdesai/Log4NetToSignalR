@@ -28,27 +28,7 @@ namespace Log4Net.Appender.SignalR
 
         protected override void Append(LoggingEvent loggingEvent)
         {
-            var logLevel = LogLevel.Error;
-            switch (loggingEvent.Level.Name)
-            {
-                case "DEBUG":
-                    logLevel = LogLevel.Debug;
-                    break;
-                case "WARN":
-                case "INFO":
-                    logLevel = LogLevel.Info;
-                    break;
-                case "ERROR":
-                    logLevel = LogLevel.Error;
-                    break;
-                case "FATAL":
-                    logLevel = LogLevel.Critical;
-                    break;
-            }
-
-            //LogService.Log(LogNameEnum.Exception, LogCategoryEnum.BusinessLogic, logLevel, RenderLoggingEvent(loggingEvent));
             string asyncBody = RenderLoggingEvent(loggingEvent);
-
             PublishToSignalR.WriteToQueue(GetFromLogLevel(loggingEvent.Level), asyncBody);
         }
 
